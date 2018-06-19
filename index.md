@@ -6,10 +6,10 @@
 
       function drawVisualization() {
         var query = new google.visualization.Query(
-        'https://docs.google.com/spreadsheets/d/1XK5_waw2lZs2fUfPpFkielBbdlNKu4WOi0VwYdfA4HE/tq?gid=0');
+        'https://docs.google.com/spreadsheets/d/1l85EUiUORYHqsen_0_GztVN0XdDPk-6G5XuVBeWXSFE/edit?usp=sharing');
 
           // Apply query language statement.
-          query.setQuery('SELECT I,P WHERE P > 100');
+          query.setQuery('SELECT A,B');
 
           // Send the query with a callback function.
           query.send(handleQueryResponse);
@@ -22,7 +22,7 @@
           }
 
           var data = response.getDataTable();
-          visualization = new google.visualization.LineChart(document.getElementById('visualization'));
+          visualization = new google.visualization.PieChart(document.getElementById('visualization'));
           visualization.draw(data, {legend: 'bottom'});
         }
     </script>
