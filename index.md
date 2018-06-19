@@ -10,32 +10,27 @@
       // Set a callback to run when the Google Visualization API is loaded.
       google.charts.setOnLoadCallback(drawChart);
 
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
+      function drawVisualization() {
+    var query = new google.visualization.Query(
+        'https://docs.google.com/spreadsheets/d/1XK5_waw2lZs2fUfPpFkielBbdlNKu4WOi0VwYdfA4HE/tq?gid=0');
 
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-        ]);
+    // Apply query language statement.
+    query.setQuery('SELECT I,P WHERE P > 100');
+    
+    // Send the query with a callback function.
+    query.send(handleQueryResponse);
+  }
 
-        // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':400,
-                       'height':300};
+  function handleQueryResponse(response) {
+    if (response.isError()) {
+      alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+      return;
+    }
 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
+    var data = response.getDataTable();
+    visualization = new google.visualization.LineChart(document.getElementById('visualization'));
+    visualization.draw(data, {legend: 'bottom'});
+  }
     </script>
   </head>
 
